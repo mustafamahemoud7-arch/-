@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة تحويل المناهج إلى عروض تقديمية (PowerPoint)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;750&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-indigo-700 text-white shadow-md py-4 px-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">🎓 محول المناهج الذكي إلى PowerPoint</h1>
+            <span class="text-sm bg-indigo-600 px-3 py-1 rounded-full">الإصدار 1.0</span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container mx-auto flex-grow p-6 max-w-6xl">
+        
+        <!-- Navigation Tabs -->
+        <div class="flex flex-wrap gap-2 mb-6 border-b pb-4">
+            <button onclick="switchTab('upload')" id="btn-upload" class="tab-btn bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold transition">1. رفع الملف</button>
+            <button onclick="switchTab('specialty')" id="btn-specialty" class="tab-btn bg-white text-slate-700 border px-4 py-2 rounded-lg font-semibold transition hover:bg-slate-100">2. التخصص والفريم</button>
+            <button onclick="switchTab('teacher')" id="btn-teacher" class="tab-btn bg-white text-slate-700 border px-4 py-2 rounded-lg font-semibold transition hover:bg-slate-100">3. بيانات المدرس</button>
+            <button onclick="switchTab('fonts')" id="btn-fonts" class="tab-btn bg-white text-slate-700 border px-4 py-2 rounded-lg font-semibold transition hover:bg-slate-100">4. نوع الخط</button>
+            <button onclick="switchTab('export')" id="btn-export" class="tab-btn bg-white text-slate-700 border px-4 py-2 rounded-lg font-semibold transition hover:bg-slate-100">5. المعاينة والتوليد</button>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border">
+            
+            <!-- Tab 1: Upload -->
+            <div id="tab-upload" class="tab-content">
+                <h2 class="text-lg font-bold mb-4 text-indigo-700">رفع الملف التعليمي (PDF)</h2>
+                <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center bg-slate-50 hover:bg-slate-100 transition cursor-pointer">
+                    <input type="file" id="pdfFile" accept=".pdf" class="hidden" onchange="handleFileSelect(event)">
+                    <label for="pdfFile" class="cursor-pointer">
+                        <svg class="mx-auto h-12 w-12 text-slate-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                        <span class="text-slate-600 font-medium">اضغط هنا لرفع ملف الـ PDF أو اسحبه وأفلته هنا</span>
+                        <p id="fileName" class="text-sm text-indigo-600 mt-2 font-semibold"></p>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tab 2: Specialty & Frame -->
+            <div id="tab-specialty" class="tab-content hidden">
+                <h2 class="text-lg font-bold mb-4 text-indigo-700">اختر التخصص لتصميم الفريم المناسب</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <label class="border p-4 rounded-xl cursor-pointer hover:border-indigo-600 flex flex-col items-center text-center transition">
+                        <input type="radio" name="specialty" value="math" class="mb-2" checked>
+                        <span class="font-bold text-slate-800">رياضيات / فيزياء</span>
+                        <span class="text-xs text-slate-500 mt-1">فريم هندسي مع مساحات للرسومات والمعادلات</span>
+                    </label>
+                    <label class="border p-4 rounded-xl cursor-pointer hover:border-indigo-600 flex flex-col items-center text-center transition">
+                        <input type="radio" name="specialty" value="languages" class="mb-2">
+                        <span class="font-bold text-slate-800">لغات (عربي / إنجليزي)</span>
+                        <span class="text-xs text-slate-500 mt-1">فريم هادئ مخصص للنصوص والقواعد</span>
+                    </label>
+                    <label class="border p-4 rounded-xl cursor-pointer hover:border-indigo-600 flex flex-col items-center text-center transition">
+                        <input type="radio" name="specialty" value="science" class="mb-2">
+                        <span class="font-bold text-slate-800">علوم / دراسات</span>
+                        <span class="text-xs text-slate-500 mt-1">فريم علمي مع خلفيات للخرائط والصور</span>
+                    </label>
+                </div>
+                <div>
+                    <label class="block font-medium mb-2">شكل الفريم العام:</label>
+                    <select id="frameStyle" class="w-full border rounded-lg p-2.5">
+                        <option value="modern">الإطار الحديث (Modern Gradient)</option>
+                        <option value="classic">الإطار الكلاسيكي المزخرف</option>
+                        <option value="minimal">إطار بسيط ونظيف (Clean Minimal)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tab 3: Teacher Info -->
+            <div id="tab-teacher" class="tab-content hidden">
+                <h2 class="text-lg font-bold mb-4 text-indigo-700">بيانات وأرقام المدرس (لتظهر على الشرائح)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium mb-1">اسم المعلم:</label>
+                        <input type="text" id="teacherName" placeholder="مثال: الأستاذ/ أحمد محمد" class="w-full border rounded-lg p-2.5">
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">المادة الدراسية:</label>
+                        <input type="text" id="subjectName" placeholder="مثال: اللغة العربية - الصف الأول الثانوي" class="w-full border rounded-lg p-2.5">
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">رقم الهاتف / واتساب الأساسي:</label>
+                        <input type="text" id="phone1" placeholder="010xxxxxxxx" class="w-full border rounded-lg p-2.5">
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">رقم هاتف إضافي (اختياري):</label>
+                        <input type="text" id="phone2" placeholder="011xxxxxxxx" class="w-full border rounded-lg p-2.5">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Fonts -->
+            <div id="tab-fonts" class="tab-content hidden">
+                <h2 class="text-lg font-bold mb-4 text-indigo-700">تخصيص نوع الخط في الشرائح</h2>
+                <div class="space-y-3">
+                    <label class="flex items-center space-x-3 space-x-reverse border p-3 rounded-lg cursor-pointer hover:bg-slate-50">
+                        <input type="radio" name="fontFamily" value="Cairo" checked class="text-indigo-600">
+                        <span style="font-family: 'Cairo', sans-serif;" class="text-lg font-bold">خط كايرو (Cairo) - عصري وواضح جداً</span>
+                    </label>
+                    <label class="flex items-center space-x-3 space-x-reverse border p-3 rounded-lg cursor-pointer hover:bg-slate-50">
+                        <input type="radio" name="fontFamily" value="Tajawal" class="text-indigo-600">
+                        <span style="font-family: 'Tajawal', sans-serif;" class="text-lg font-bold">خط تجوال (Tajawal) - رسمي وأنيق</span>
+                    </label>
+                    <label class="flex items-center space-x-3 space-x-reverse border p-3 rounded-lg cursor-pointer hover:bg-slate-50">
+                        <input type="radio" name="fontFamily" value="Amiri" class="text-indigo-600">
+                        <span style="font-family: 'Amiri', serif;" class="text-lg font-bold">خط الأميري (Amiri) - تقليدي كلاسيكي</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tab 5: Preview & Export -->
+            <div id="tab-export" class="tab-content hidden">
+                <h2 class="text-lg font-bold mb-4 text-indigo-700">المعاينة وتوليد ملف الباوربوينت</h2>
+                <p class="text-slate-600 mb-6">تم ضبط كافة الإعدادات بنجاح. اضغط على الزر أدناه لتوليد ملف الـ PowerPoint مع تطبيق الفريم وأرقام المدرس والخطوط المختارة.</p>
+                <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 mb-6">
+                    <h3 class="font-bold text-indigo-900 mb-2">ملخص الإعدادات:</h3>
+                    <ul id="summaryList" class="text-sm text-indigo-800 space-y-1">
+                        <li>- الملف: لم يتم الرفع بعد</li>
+                        <li>- التخصص: رياضيات / فيزياء</li>
+                        <li>- المعلم: غير محدد</li>
+                        <li>- الخط: Cairo</li>
+                    </ul>
+                </div>
+                <button onclick="generatePowerPoint()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition shadow-lg">
+                    🚀 تحميل ملف PowerPoint الآن
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Remove active states from buttons
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-indigo-600', 'text-white');
+                el.classList.add('bg-white', 'text-slate-700', 'border');
+            });
+            
+            // Show target tab
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            // Activate target button
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('bg-white', 'text-slate-700', 'border');
+            activeBtn.classList.add('bg-indigo-600', 'text-white');
+
+            if(tabId === 'export') {
+                updateSummary();
+            }
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('fileName').innerText = "تم اختيار الملف: " + file.name;
+            }
+        }
+
+        function updateSummary() {
+            const teacher = document.getElementById('teacherName').value || 'غير محدد';
+            const subject = document.getElementById('subjectName').value || 'غير محدد';
+            const specialty = document.querySelector('input[name="specialty"]:checked').parentElement.querySelector('span').innerText;
+            const font = document.querySelector('input[name="fontFamily"]:checked').value;
+            
+            document.getElementById('summaryList').innerHTML = `
+                <li>- التخصص: ${specialty}</li>
+                <li>- المعلم: ${teacher} (${subject})</li>
+                <li>- نوع الخط: ${font}</li>
+            `;
+        }
+
+        function generatePowerPoint() {
+            alert('جاري معالجة ملف الـ PDF وتطبيق الفريم والبيانات... سيتم تحميل ملف الـ PowerPoint قريباً!');
+            // هنا يتم دمج مكتبات مثل PptxGenJS لإنشاء الشرائح برمجياً وتنزيلها للمستخدم.
+        }
+    </script>
+</body>
+</html>
